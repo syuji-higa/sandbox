@@ -1,5 +1,10 @@
+import { Bar } from './Bar'
+
 export const Foo = () => {
   return (
-    <div>Foo</div>
+    <div>
+      <div>Foo</div>
+      <Bar />
+    </div>
   )
 }
