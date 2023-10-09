@@ -1,4 +1,4 @@
-import { vertexShaderScript } from './vertexShader.js?v24'; 
+import { vertexShaderScript } from './vertexShader.js?v50'; 
 import { fragmentShaderScript } from './fragmentShader.js?v1'; 
 
 window.addEventListener('DOMContentLoaded', main);
