@@ -1,4 +1,4 @@
-import { vertexShaderScript } from './vertexShader.js?v8'; 
+import { vertexShaderScript } from './vertexShader.js?v24'; 
 import { fragmentShaderScript } from './fragmentShader.js?v1'; 
 
 window.addEventListener('DOMContentLoaded', main);
@@ -21,7 +21,7 @@ function main() {
   gl.shaderSource(fragmentShader, fragmentShaderScript);
   gl.compileShader(fragmentShader);
 
-  // プログラムを作成する。
+  // プログラムを作成して、シェーダに設定する。
   const program = gl.createProgram();
   gl.attachShader(program, vertexShader);
   gl.attachShader(program, fragmentShader);
@@ -30,7 +30,7 @@ function main() {
   gl.useProgram(program);
 
   /** オーディオの秒数。 */
-  const audioSeconds = 5;
+  const audioSeconds = 10;
   
   /**
    * サンプリングレート。
@@ -40,6 +40,11 @@ function main() {
 
   /** サンプルの総量。 */
   const sampleLength = sampleRate * audioSeconds;
+
+  // サンプリングレートをシェーダに渡す。
+  const uniformLocation = new Array();
+  uniformLocation[0] = gl.getUniformLocation(program, 'sampleRate');
+  gl.uniform1f(uniformLocation[0], sampleRate);
   
   /** トランスフォームフィードバックの結果を格納するバッファ。 */
   const arrayBuffer = new Float32Array(sampleLength);
@@ -57,8 +62,6 @@ function main() {
   gl.endTransformFeedback();
   gl.getBufferSubData(gl.TRANSFORM_FEEDBACK_BUFFER, 0, arrayBuffer);
 
-  console.log(arrayBuffer);
-
   // オーディオコンテキストを作成する。
   const audioContext = new AudioContext();
 
@@ -74,7 +77,7 @@ function main() {
     bufferring.set(arrayBuffer);
   }
 
-  // オーディオバッファをもとソースを作成する。
+  // オーディオバッファをもとに音声ソースを作成する。
   const source = audioContext.createBufferSource();
   source.buffer = audioBuffer;
   source.connect(audioContext.destination);
