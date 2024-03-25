@@ -5,14 +5,15 @@ import { expect, test } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { Foo } from '.'
+import { renderInNewContainer } from '../../test/util'
 
 test('Foo checkbox', async () => {
   // ARRANGE
-  render(<Foo />)
+  const container = renderInNewContainer(<Foo />)
 
   // ACT
-  await userEvent.click(screen.getByRole('checkbox', { name: 'Foo' }))
+  await userEvent.click(container.getByRole('checkbox', { name: 'Foo' }))
 
   // ASSERT
-  expect(screen.getByText('True')).toBeInTheDocument()
+  expect(container.getByText('True')).toBeInTheDocument()
 })
