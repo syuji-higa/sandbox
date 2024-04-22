@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>sample-wasm example</title>
+  </head>
+  <body>
+    <script type="module">
+      import init, { fibonacci } from "./pkg/sample_wasm.cjs";
+      init().then(() => {
+        fibonacci(10);
+      });
+    </script>
+  </body>
+</html>
